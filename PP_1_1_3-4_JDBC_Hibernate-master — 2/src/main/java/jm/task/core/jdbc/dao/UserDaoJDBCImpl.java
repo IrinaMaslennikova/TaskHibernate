@@ -7,13 +7,13 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserDaoJDBCImpl extends Util implements UserDao {
+public class UserDaoJDBCImpl implements UserDao {
     public UserDaoJDBCImpl() {
 
     }
 
     public void createUsersTable() throws SQLException {
-        Connection connection = getConnection();
+        Connection connection = Util.getConnection();
         String sql = "CREATE TABLE `users` (" +
                 "`id` INT NOT NULL AUTO_INCREMENT," +
                 "`name` VARCHAR(45) NULL," +
@@ -29,7 +29,7 @@ public class UserDaoJDBCImpl extends Util implements UserDao {
     }
 
     public void dropUsersTable() throws SQLException {
-        Connection connection = getConnection();
+        Connection connection = Util.getConnection();
         String sql = "DROP TABLE `users`;";
         try(PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.executeUpdate();
@@ -40,7 +40,7 @@ public class UserDaoJDBCImpl extends Util implements UserDao {
     }
 
     public void saveUser(String name, String lastName, byte age) throws SQLException {
-        Connection connection = getConnection();
+        Connection connection = Util.getConnection();
         String sql = "INSERT INTO `users` (name, lastName, age) VALUE (?, ?, ?);";
         try(PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1,name);
@@ -54,7 +54,7 @@ public class UserDaoJDBCImpl extends Util implements UserDao {
     }
 
     public void removeUserById(long id) throws SQLException {
-        Connection connection = getConnection();
+        Connection connection = Util.getConnection();
         String sql = "DELETE FROM `users` WHERE id = ?;";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setLong(1,id);
@@ -66,7 +66,7 @@ public class UserDaoJDBCImpl extends Util implements UserDao {
     }
 
     public List<User> getAllUsers() throws SQLException {
-        Connection connection = getConnection();
+        Connection connection = Util.getConnection();
         String sql = "SELECT * FROM `users`;";
         List<User> users = new ArrayList<>();
         ResultSet resultSet = null;
@@ -83,7 +83,7 @@ public class UserDaoJDBCImpl extends Util implements UserDao {
     }
 
     public void cleanUsersTable() throws SQLException {
-        Connection connection = getConnection();
+        Connection connection = Util.getConnection();
         String sql = "DELETE FROM `users`;";
         try(PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.executeUpdate();
